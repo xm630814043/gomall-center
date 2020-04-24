@@ -1,0 +1,35 @@
+server:
+  prefixurl: localhost:5800
+  runmode: debug
+  httpport: 5800
+  runtimerootpath: runtime/
+  readtimeout: 60
+  writetimeout: 60
+  timeformat: 20060102
+database:
+  type: mysql
+  connections:
+    default: siyanji:bY1q2w3e4r@tcp(rm-2zefk50w2q291l9a5eo.mysql.rds.aliyuncs.com)/gomall_db?charset=utf8&parseTime=True&loc=Local
+
+redis:
+  default:
+    addr: 127.0.0.1:6379
+    db: 0
+  yaoxieda:
+    addr: 127.0.0.1:6379
+    db: 1
+
+logger:
+  logsavepath: logs/
+  logsavename: gomall
+  logfileext: log
+auth:
+  jwtsecret: token-secret
+  expiretime: 24 # hour
+pagger:
+  pagesize: 20
+media:
+  default:
+    access: ulyE2YTZV4vB8xzdomVXoIWFlcIhArvrOnIA4Npx
+    secret: z2rAeAfiz6KvMWAI_2gvH3eaztwMohImHzmBW1G_
+    bucket: by-gomall

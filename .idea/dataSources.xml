@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="server" uuid="42f796d9-de02-4c9e-934d-423fcd854aa9">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://rm-2zefk50w2q291l9a5eo.mysql.rds.aliyuncs.com:3306/gomall_db</jdbc-url>
+    </data-source>
+  </component>
+</project>
