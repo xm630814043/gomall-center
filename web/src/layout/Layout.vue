@@ -26,16 +26,16 @@
           </el-menu-item>
           <el-menu-item index="/company">
             <i class="el-icon-star-off"></i>
-            <span slot="title">会员管理</span>
+            <span slot="title">企业管理</span>
           </el-menu-item>
           <el-menu-item index="/goods">
             <i class="el-icon-goods"></i>
             <span slot="title">产品审核</span>
           </el-menu-item>
-          <el-menu-item index="/goods">
-                      <i class="el-icon-goods"></i>
-                      <span slot="title">产品属性管理</span>
-                    </el-menu-item>
+          <el-menu-item index="/goods/property">
+             <i class="el-icon-goods"></i>
+             <span slot="title">产品属性管理</span>
+             </el-menu-item>
           <el-menu-item index="4">
             <i class="el-icon-setting"></i>
             <span slot="title">系统设置</span>
@@ -43,7 +43,7 @@
         </el-menu>
       </el-aside>
       <el-main style="padding:0px">
-        <router-view />
+        <router-view></router-view>
       </el-main>
     </el-container>
   </div>
@@ -67,7 +67,8 @@ export default {
       this.collapseIcon = this.isCollapse
         ? 'el-icon-d-arrow-right'
         : 'el-icon-d-arrow-left'
-    }
+    },
+
   }
 }
 </script>

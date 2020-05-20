@@ -6,68 +6,59 @@
         <div class="list-title"></div>
         <div>
           <el-collapse v-model="activeIndex">
-            <el-collapse-item v-for="c in channels"
-                              :name="c.id"
-                              :key="c.id">
-              <span slot="title"
-                    style="margin-left:20px">{{ c.name }}</span>
-              <div v-for="s in c.children"
-                   :key="s.id"
+            <el-collapse-item v-for="c in tabledata"
+                              :name="c.ID"
+                              :key="c.ID">
+              <span slot="title" style="margin-left:20px">{{ c.channel_name }}</span>
+              <div v-for="s in c.subjects"
+                   :key="s.ID"
                    style="margin:20px">
-                {{ s.name }}
+                <router-link :to="{path:s.url}"></router-link>
+                <el-button type="text" @click="subjects(s.ID)" style="height: 1px">{{ s.title }}</el-button>
               </div>
             </el-collapse-item>
           </el-collapse>
         </div>
       </SplitArea>
-      <SplitArea :size="75">
-        panel right
+      <SplitArea :size="75" class="splitArea">
+        <router-view></router-view>
       </SplitArea>
     </Split>
   </div>
 </template>
 <script>
-export default {
-  name: 'cms',
-  data () {
-    return {
-      activeIndex: '1',
-      channels: [
-        {
-          id: 1,
-          name: '首页',
-          children: [
-            {
-              id: 112,
-              type: 'product',
-              name: '推荐产品'
-            },
-            {
-              id: 110,
-              type: 'product',
-              name: '推荐店铺'
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: '优选店铺',
-          children: [
-            {
-              id: 113,
-              type: 'product',
-              name: '店铺列表'
-            }
-          ]
+  import {FindChannelList} from '../../api/company'
+  export default {
+    name: 'cms',
+    data () {
+      return {
+        activeIndex: '1',
+        tabledata:[],
+      }
+    },
+    mounted(){
+      FindChannelList().then(res=>{
+        // console.log(this.tabledata)
+        this.tabledata = res.data
+      })
+    },
+    methods: {
+      subjects(id){
+        console.log("点击返回的栏目ID",id)
+        if (id == 1){
+          this.$router.push({path:'/cms/reproduces',query:{sid:id,sname:'product',slimit:5}})
         }
-      ]
+        if (id == 2){
+          this.$router.push({path:'/cms/restore',query:{sid:id,sname:'shop',slimit:5}})
+        }
+        if (id == 3){
+          this.$router.push({path:'/cms/reproduces',query:{sid:id,sname:'product',slimit:5}})
+        }
+        if (id == 4){
+          this.$router.push({path:'/cms/stores',query:{sid:id,sname:'article',slimit:5}})
+        }
+      },
     }
-  },
-  methods: {
-    resize () {
-      console.log('resize')
-    }
-  }
 }
 </script>
 <style scoped>
@@ -80,4 +71,7 @@ export default {
   background-color: white;
   padding-left: 20px;
 }
+  .splitArea{
+    background-color: #e6e6e6;
+  }
 </style>

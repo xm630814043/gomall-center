@@ -2,7 +2,7 @@ package models
 
 import "gomall-center/pkg/web"
 
-// PagerArgs common pager args
+//PagerArgs common pager args
 type PagerArgs struct {
 	PageSize    int
 	PageNum     int
@@ -24,4 +24,10 @@ func (pager *PagerArgs) Bind(ctx *web.Context) error {
 		pager.PageNum = 1
 	}
 	return nil
+}
+
+//PagerData ...
+type PagerData struct {
+	Count int         `json:"count"`
+	Data  interface{} `json:"data"`
 }

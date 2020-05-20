@@ -1,0 +1,105 @@
+/*推荐产品CSS样式*/
+.hot-goods-container-title{
+    font-size: 35px;
+    font-weight: bold;
+    padding: 15px;
+    border-bottom: 1px solid #e6e6e6;
+    margin: 10px auto 13px;
+}
+.hot-goods-container-goodscontainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+.hot-goods-container-goodscontainer >div {
+    flex-grow: 1; /* 子元素按1/n的比例进行拉伸 */
+    background-color: #fff;
+    text-align: center;
+    color: #5D6FFF;
+    font-size: 30px;
+    line-height: 1;
+    border: 1px solid #e6e6e6;
+}
+.goodsimg{
+    width: 360px;
+    height: 250px;
+}
+.hot-goods-container-goodscontainer >div:nth-of-type(3n){
+    margin-right: 0;
+}
+.hot-goods-container-goodscontainer >div:nth-of-type(n+7){
+    margin-bottom: 0;
+}
+.goods-item-title{
+    font-size: 20px;
+}
+.goods-item-price{
+    font-size: 18px;
+}
+
+
+/*推荐商家CSS样式*/
+.good-goodsShop-title {
+    font-size: 35px;
+    font-weight: bold;
+    padding: 15px;
+    border-bottom: 1px solid #e6e6e6;
+    margin: 10px auto 13px;
+}
+.good-goodsShop-title>span {
+    font-size: 25px;
+}
+/*图片样式*/
+.good-goodsShop {
+    display: flex;
+    flex-wrap: wrap;
+}
+.good-goodsShop >div {
+    flex-grow: 1; /* 子元素按1/n的比例进行拉伸 */
+    background-color: #fff;
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+    line-height: 1;
+    border: 1px solid #e6e6e6;
+}
+.good-goodsShop >div:nth-of-type(3n){
+    margin-right: 0;
+}
+
+.good-goodsShop >div:nth-of-type(n+6){
+    margin-bottom: 0;
+}
+
+/*店铺列表*/
+.good-goodshops-title {
+    font-size: 35px;
+    font-weight: bold;
+    padding: 15px;
+    border-bottom: 1px solid #e6e6e6;
+    margin: 10px auto 13px;
+}
+.good-goodshops-title>span {
+    font-size: 25px;
+}
+/*图片样式*/
+.good-goodshops {
+    display: flex;
+    flex-wrap: wrap;
+}
+.good-goodshops >div {
+    flex-grow: 1; /* 子元素按1/n的比例进行拉伸 */
+    background-color: #fff;
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+    line-height: 1;
+    border: 1px solid #e6e6e6;
+}
+
+.good-goodshops >div:nth-of-type(3n){
+    margin-right: 0;
+}
+
+.good-goodshops >div:nth-of-type(n+7){
+    margin-bottom: 0;
+}

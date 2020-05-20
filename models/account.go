@@ -1,9 +1,8 @@
 package models
 
 import (
-	"gomall-center/pkg/enum"
-
 	"github.com/jinzhu/gorm"
+	"gomall-center/pkg/enum"
 )
 
 // Account struct

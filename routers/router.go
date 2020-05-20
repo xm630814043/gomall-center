@@ -24,3 +24,4 @@ func Init() *gin.Engine {
 	Register(r)
 	return r
 }
+
