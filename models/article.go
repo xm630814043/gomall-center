@@ -9,11 +9,5 @@ type Article struct {
 	ImageURL  string `json:"image_url"`
 	Contents  string `json:"contents"`
 	SubjectID int64  `json:"subject_id"`
-}
-
-//Article ...添加文章
-type ArticleContents struct {
-	ID        int64  `json:"id"`
-	Title     string `json:"title"`
-	Contents  string `json:"contents"`
+	Tags 	  string `json:"tags"`
 }

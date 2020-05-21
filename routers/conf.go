@@ -42,15 +42,15 @@ func Register(router *gin.Engine) {
 	v1.PUT("/category/property/edit/:id", web.Handler(api.ModifyProp))             //修改属性根据ID
 
 	//测试
-	v1.POST("/cms/subjects/create", web.Handler(api.AddControlSell))
-	v1.GET("/cms/channels/list/:id", web.Handler(api.FindControlSellByID))
-	v1.GET("/cms/subjects/list/:id", web.Handler(api.FindControlSellList))
-	v1.DELETE("/cms/subjects/:id", web.Handler(api.RemoveControlSell))
-	v1.PUT("/cms/subjects/edit/:id", web.Handler(api.ModifyControlSell))
+	v1.POST("/cms/controlled/create", web.Handler(api.AddControlSell))
+	v1.GET("/cms/controlled/detail/:id", web.Handler(api.FindByControlSell))
+	v1.GET("/cms/controlled/list/:id", web.Handler(api.FindControlSellList))
+	v1.DELETE("/cms/controlled/:id", web.Handler(api.RemoveControlSell))
+	v1.PUT("/cms/controlled/edit/:id", web.Handler(api.ModifyControlSell))
 
-	v1.POST("/cms/subjecta/create", web.Handler(api.AddArticle))
-	v1.GET("/cms/channela/list/:id", web.Handler(api.FindByArticle))
-	v1.GET("/cms/subjecta/list/", web.Handler(api.FindArticleList))
-	v1.DELETE("/cms/subjecta/:id", web.Handler(api.RemoveArticle))
-	v1.PUT("/cms/subjecta/edit/:id", web.Handler(api.ModifyArticle))
+	v1.POST("/cms/article/create", web.Handler(api.AddArticle))
+	v1.GET("/cms/article/detail/:id", web.Handler(api.FindByArticle))
+	v1.GET("/cms/article/list", web.Handler(api.FindArticleList))
+	v1.DELETE("/cms/article/:id", web.Handler(api.RemoveArticle))
+	v1.PUT("/cms/article/edit/:id", web.Handler(api.ModifyArticle))
 }

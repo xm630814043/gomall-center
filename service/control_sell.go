@@ -18,88 +18,94 @@ func NewControlSellService (content *web.RequestContext) *ControlSellService  {
 	return c
 }
 
-//InsertControlSell ...添加促销模板
+//InsertControlSell ...添加控销模板
 func (c *ControlSellService) InsertControlSell (form *models.ControlSells) int{
-	tx := c.Begin()
-	SysConfigID := strings.Replace(strings.Trim(fmt.Sprint(form.SysConfigID), ""), " ", " ", -1)
-	sysConfigId, err := json.Marshal(form.AreaOption)
+	SysConfiga := strings.Replace(strings.Trim(fmt.Sprint(form.SysConfigID), ""), " ", " ", -1)
+	SysConfigb := strings.Replace(SysConfiga, "[", "", -1 )
+	SysConfig := strings.Replace(SysConfigb, "]", "", -1 )
+	AreaID, err := json.Marshal(form.AreaOption)
 	if err != nil {
 		return e.ERROR
 	}
-	AreaOption := string(sysConfigId)
-	OrdinaryScope := strings.Replace(strings.Trim(fmt.Sprint(form.OrdinaryScope), ""), " ", " ", -1)
+	AreaOptiona := string(AreaID)
+	AreaOptionb :=strings.Replace(AreaOptiona, "[", "{", -1 )
+	AreaOption :=strings.Replace(AreaOptionb, "]", "}", -1 )
+	OrdinaryScopea := strings.Replace(strings.Trim(fmt.Sprint(form.OrdinaryScope), ""), " ", " ", -1)
+	OrdinaryScopeab :=strings.Replace(OrdinaryScopea, "[", "", -1 )
+	OrdinaryScope :=strings.Replace(OrdinaryScopeab, "]", "", -1 )
 	controlsell :=&models.ControlSell{
 		CompanyID:form.CompanyID,
 		CompanyName:form.CompanyName,
 		ControlSellName:form.ControlSellName,
 		ControlSellType:form.ControlSellType,
 		AreaID:AreaOption,
-		SysConfigID:SysConfigID,
+		SysConfigID:SysConfig,
 		OrdinaryScope:OrdinaryScope,
 	}
 	if err := c.Create(&controlsell).Error ; err!= nil{
-		tx.Rollback()
 		return e.ERROR
 	}
-	tx.Commit()
 	return e.SUCCESS
 }
 
-//DeleteByID ...根据促销模板ID删除促销模板
+//DeleteByID ...根据控销模板ID删除控销模板
 func (c *ControlSellService) DeleteByID (controlsellId int) int {
-	tx := c.Begin()
 	if err := c.Where("id = ?",controlsellId).Delete(&models.ControlSell{}).Error ;err != nil{
-		tx.Rollback()
 		return e.ERROR
 	}
-	tx.Commit()
 	return e.SUCCESS
 }
 
-//UpdateControlSell ...根据促销模板ID修改促销模板内容
+//UpdateControlSell ...根据控销模板ID修改控销模板内容
 func (c *ControlSellService) UpdateControlSell (controlsellId int,form *models.ControlSells) int {
-	tx := c.Begin()
-	SysConfigID := strings.Replace(strings.Trim(fmt.Sprint(form.SysConfigID), ""), " ", " ", -1)
-	sysConfigId, err := json.Marshal(form.AreaOption)
+	SysConfiga := strings.Replace(strings.Trim(fmt.Sprint(form.SysConfigID), ""), " ", " ", -1)
+	SysConfigb := strings.Replace(SysConfiga, "[", "", -1 )
+	SysConfig := strings.Replace(SysConfigb, "]", "", -1 )
+	AreaID, err := json.Marshal(form.AreaOption)
 	if err != nil {
 		return e.ERROR
 	}
-	AreaOption := string(sysConfigId)
-	OrdinaryScope := strings.Replace(strings.Trim(fmt.Sprint(form.OrdinaryScope), ""), " ", " ", -1)
+	AreaOptiona := string(AreaID)
+	AreaOptionb :=strings.Replace(AreaOptiona, "[", "{", -1 )
+	AreaOption :=strings.Replace(AreaOptionb, "]", "}", -1 )
+	OrdinaryScopea := strings.Replace(strings.Trim(fmt.Sprint(form.OrdinaryScope), ""), " ", " ", -1)
+	OrdinaryScopeab :=strings.Replace(OrdinaryScopea, "[", "", -1 )
+	OrdinaryScope :=strings.Replace(OrdinaryScopeab, "]", "", -1 )
 	result := &models.ControlSell{}
 	c.First(result)
+	result.ID = uint(controlsellId)
 	result.CompanyID = form.CompanyID
 	result.CompanyName = form.CompanyName
 	result.ControlSellName = form.ControlSellName
 	result.ControlSellType = form.ControlSellType
 	result.AreaID = AreaOption
-	result.SysConfigID = SysConfigID
+	result.SysConfigID = SysConfig
 	result. OrdinaryScope = OrdinaryScope
-	if err := c.Where("id = ?" ,controlsellId).Save(&result).Error ; err!= nil{
-		tx.Rollback()
+	if err := c.Table("t_control_sell").Save(&result).Error ; err!= nil{
 		return e.ERROR
 	}
-	tx.Commit()
 	return e.SUCCESS
 }
 
-//ControlSellByID ...根据促销模板ID获取促销模板详情
+//ControlSellByID ...根据控销模板ID获取控销模板详情
 func (c *ControlSellService) ControlSellByID (controlsellId int) *models.ControlSell{
 	results := &models.ControlSell{}
-	if err := c.Where("id = ?",controlsellId).Find(&results).Error ;err !=nil{
+	if err := c.Where("id = ?",controlsellId).First(&results).Error ;err !=nil{
 		return nil
 	}
 	return results
 }
 
-//ControlSellList ...根据企业ID获取促销模板列表
+//ControlSellList ...根据企业ID获取控销模板列表
 func (c *ControlSellService) ControlSellList(companyId int,args *models.PagerArgs) *models.PagerData{
 	var controlsell []*models.ControlSell
 	var count int
 	if args.KeyWord != "" {
 		c.Where("title like ?", "'%"+args.KeyWord+"%'")
 	}
-	c.Where("company_id = ?",companyId).Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Find(&controlsell).Count(&count)
+	if err := c.Where("company_id = ?",companyId).Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Find(&controlsell).Count(&count).Error ;err !=nil{
+		return nil
+	}
 	results := &models.PagerData{
 		Count: count,
 		Data:  controlsell,

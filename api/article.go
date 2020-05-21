@@ -11,7 +11,7 @@ import (
 
 //AddArticle ...添加文章
 func AddArticle(ctx *web.Context) {
-	form := &models.ArticleContents{}
+	form := &models.Article{}
 	if err := ctx.BindJSON(form); err != nil {
 		ctx.Response(e.BAD_REQUEST)
 		return
@@ -36,7 +36,7 @@ func RemoveArticle(ctx *web.Context)  {
 
 //ModifyArticle ...修改文章内容
 func ModifyArticle(ctx *web.Context)  {
-	form := &models.ArticleContents{}
+	form := &models.Article{}
 	articleId,_ := strconv.Atoi(ctx.Param("id"))
 	if err := ctx.BindJSON(form) ; err!= nil{
 		ctx.Response(e.BAD_REQUEST)

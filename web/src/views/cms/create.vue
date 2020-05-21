@@ -23,7 +23,7 @@
                     company_id:1,
                     company_name:'众泰',
                     control_sell_name:'偏远地区',
-                    control_sell_type:1,
+                    control_sell_type:2,
                     area_option:[{
                         "id" : 7707,
                         "area_name" : "市辖区",

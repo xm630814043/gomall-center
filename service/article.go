@@ -16,36 +16,26 @@ func NewArticleService(content *web.RequestContext) *ArticleService {
 }
 
 //InsertArticle ...添加文章
-func (c *ArticleService) InsertArticle(form *models.ArticleContents) int {
-	tx := c.Begin()
-	var article = models.Article{Title: form.Title,Contents: form.Contents}
-	if err := c.Create(&article).Error ; err !=nil{
-		tx.Rollback()
+func (c *ArticleService) InsertArticle(form *models.Article) int {
+	if err := c.Create(&form).Error ; err !=nil{
 		return e.ERROR
 	}
-	tx.Commit()
 	return e.SUCCESS
 }
 
 //DeleteByID ...根据ID删除文章
 func (c *ArticleService) DeleteByID (articleId int) int {
-	tx := c.Begin()
 	if err := c.Where("id = ?",articleId).Delete(&models.Article{}).Error ; err != nil{
-		tx.Rollback()
 		return e.ERROR
 	}
-	tx.Commit()
 	return e.SUCCESS
 }
 
 //UpdateArticle ...根据ID修改文章内容
-func (c *ArticleService) UpdateArticle (articleId int,form *models.ArticleContents) int {
-	tx :=c.Begin()
+func (c *ArticleService) UpdateArticle (articleId int,form *models.Article) int {
 	if err := c.Table("t_article").Where("id = ? ",articleId).Update(form).Error ; err != nil{
-		tx.Rollback()
 		return e.ERROR
 	}
-	tx.Commit()
 	return e.SUCCESS
 }
 
@@ -65,7 +55,9 @@ func (c *ArticleService) ArticleList (args *models.PagerArgs) *models.PagerData 
 	if args.KeyWord != "" {
 		c.Where("title like ?", "'%"+args.KeyWord+"%'")
 	}
-	c.Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Find(&articles).Count(&count)
+	if err := c.Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Find(&articles).Count(&count).Error ; err!= nil{
+		return nil
+	}
 	results := &models.PagerData{
 		Count: count,
 		Data:  articles,

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"gomall-center/models"
 	"gomall-center/pkg/e"
 	"gomall-center/pkg/web"
@@ -10,12 +9,11 @@ import (
 	"strconv"
 )
 
-//InsertControlSell ...添加促销模板
+//InsertControlSell ...添加控销模板
 func AddControlSell (ctx *web.Context){
 	form := &models.ControlSells{}
 	if err := ctx.BindJSON(form); err != nil {
 		ctx.Response(e.BAD_REQUEST)
-		fmt.Println("错误添加")
 		return
 	}
 	validate := validator.New()
@@ -28,7 +26,7 @@ func AddControlSell (ctx *web.Context){
 	ctx.Response(code)
 }
 
-//InsertControlSell ...删除促销模板
+//InsertControlSell ...删除控销模板
 func RemoveControlSell(ctx *web.Context){
 	controlsellId,_ := strconv.Atoi(ctx.Param("id"))
 	srv := service.NewControlSellService(ctx.RequestContext)
@@ -36,14 +34,12 @@ func RemoveControlSell(ctx *web.Context){
 	ctx.Response(code)
 }
 
-//InsertControlSell ...修改促销模板
+//InsertControlSell ...修改控销模板
 func ModifyControlSell(ctx *web.Context){
 	form := &models.ControlSells{}
 	controlsellId,_ := strconv.Atoi(ctx.Param("id"))
-	fmt.Println("接受到传参的id",controlsellId)
 	if err := ctx.BindJSON(form) ; err != nil{
 		ctx.Response(e.BAD_REQUEST)
-		fmt.Println("错误修改")
 		return
 	}
 	validate := validator.New()
@@ -51,21 +47,20 @@ func ModifyControlSell(ctx *web.Context){
 		ctx.Response(e.BAD_REQUEST)
 		return
 	}
-	fmt.Println(form)
 	srv := service.NewControlSellService(ctx.RequestContext)
 	code := srv.UpdateControlSell(controlsellId,form)
 	ctx.Response(code)
 }
 
-//InsertControlSell ...获取促销模板详情
-func FindControlSellByID(ctx *web.Context){
+//InsertControlSell ...获取控销模板详情
+func FindByControlSell(ctx *web.Context){
 	controlsellId,_ := strconv.Atoi(ctx.Param("id"))
 	srv :=service.NewControlSellService(ctx.RequestContext)
 	data := srv.ControlSellByID(controlsellId)
 	ctx.ResponseData(e.SUCCESS,data)
 }
 
-//InsertControlSell ...获取促销模板列表
+//InsertControlSell ...获取控销模板列表
 func FindControlSellList(ctx *web.Context){
 	companyId,_ := strconv.Atoi(ctx.Param("id"))
 	pager := &models.PagerArgs{}

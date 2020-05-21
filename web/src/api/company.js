@@ -5,32 +5,32 @@ import request from '../ajax'
  */
 export function AddControlSell(data) {
     return request({
-        url: '/api/v1/cms/subjects/create',
+        url: '/api/v1/cms/controlled/create',
         method: 'post',
         data:data
     })
 }
 export function FindControlSellByID(id) {
     return request({
-        url: '/api/v1/cms/channels/list/' + id,
+        url: '/api/v1/cms/controlled/detail/' + id,
         method: 'get',
     })
 }
 export function FindControlSellList(id) {
     return request({
-        url: '/api/v1/cms/subjects/list/' + id,
+        url: '/api/v1/cms/controlled/list/' + id,
         method: 'get',
     })
 }
 export function RemoveControlSell(id) {
     return request({
-        url: '/api/v1/cms/subjects/' + id ,
+        url: '/api/v1/cms/controlled/' + id ,
         method: 'delete',
     })
 }
 export function ModifyControlSell(id,data) {
     return request({
-        url: '/api/v1/cms/subjects/edit/' + id,
+        url: '/api/v1/cms/controlled/edit/' + id,
         method: 'put',
         data:data
     })
