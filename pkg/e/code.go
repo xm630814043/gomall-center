@@ -3,6 +3,7 @@ package e
 const (
 	SUCCESS      = 200
 	ERROR        = 500
+	Time_ERROR   = 1291
 	BAD_REQUEST  = 400
 	UNAUTHORIZED = 401
 	FORBIDDEN    = 403

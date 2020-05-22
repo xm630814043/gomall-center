@@ -53,4 +53,9 @@ func Register(router *gin.Engine) {
 	v1.GET("/cms/article/list", web.Handler(api.FindArticleList))
 	v1.DELETE("/cms/article/:id", web.Handler(api.RemoveArticle))
 	v1.PUT("/cms/article/edit/:id", web.Handler(api.ModifyArticle))
+
+	v1.POST("/cms/promotionactivity/create", web.Handler(api.AddPomotionActivity))
+	v1.DELETE("/cms/promotionactivity/:id", web.Handler(api.RemovePomotionActivity))
+	v1.PUT("/cms/promotionactivity/edit/:id", web.Handler(api.ModifyPomotionActivity))
+
 }

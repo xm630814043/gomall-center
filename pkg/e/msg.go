@@ -7,7 +7,7 @@ var MsgFlags = map[int]string{
 	BAD_REQUEST:  "失败",
 	UNAUTHORIZED: "未登录",
 	FORBIDDEN:    "访问拒绝没有权限",
-
+	Time_ERROR:	  "活动已进行不能进行修改",
 	// account
 	ERROR_EXIST_USER:       "用户已存在",
 	ERROR_USER_OR_PASSWORD: "错误的用户名或密码",
