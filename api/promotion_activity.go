@@ -9,6 +9,7 @@ import (
 	"strconv"
 )
 
+//AddPomotionActivity ...添加促销活动
 func AddPomotionActivity (ctx *web.Context){
 	form := &models.PromotionActivityForm{}
 	if err := ctx.BindJSON(form);err != nil{
@@ -25,6 +26,16 @@ func AddPomotionActivity (ctx *web.Context){
 	ctx.Response(code)
 }
 
+//AddPomotionActivityAbs ...叠加平台活动
+func AddPomotionActivityAbs (ctx *web.Context){
+	shopId,_ := strconv.Atoi(ctx.Query("shopId"))
+	promotionActivityId,_ := strconv.Atoi(ctx.Param("id"))
+	srv := service.NewPromotionActivity(ctx.RequestContext)
+	code := srv.InsertPromotionActivityAbs(promotionActivityId,shopId)
+	ctx.Response(code)
+}
+
+//RemovePomotionActivity ...删除促销活动
 func RemovePomotionActivity(ctx *web.Context)  {
 	promotionActivityId,_ := strconv.Atoi(ctx.Param("id"))
 	srv := service.NewPromotionActivity(ctx.RequestContext)
@@ -33,6 +44,7 @@ func RemovePomotionActivity(ctx *web.Context)  {
 
 }
 
+//ModifyPomotionActivity ...修改促销活动
 func ModifyPomotionActivity(ctx *web.Context)  {
 	form := &models.PromotionActivityForm{}
 	promotionActivityId,_ := strconv.Atoi(ctx.Param("id"))
