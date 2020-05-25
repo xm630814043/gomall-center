@@ -41,7 +41,6 @@ func RemovePomotionActivity(ctx *web.Context)  {
 	srv := service.NewPromotionActivity(ctx.RequestContext)
 	code := srv.DeleteById(promotionActivityId)
 	ctx.Response(code)
-
 }
 
 //ModifyPomotionActivity ...修改促销活动
@@ -60,4 +59,22 @@ func ModifyPomotionActivity(ctx *web.Context)  {
 	srv := service.NewPromotionActivity(ctx.RequestContext)
 	code := srv.UpdatePomotionActivity(promotionActivityId,form)
 	ctx.Response(code)
+}
+
+//FindByPomotionActivity ...获取促销活动详情
+func FindByPomotionActivity(ctx *web.Context){
+	promotionActivityId,_ := strconv.Atoi(ctx.Param("id"))
+	srv :=service.NewPromotionActivity(ctx.RequestContext)
+	data := srv.FindPomotionActivityById(promotionActivityId)
+	ctx.ResponseData(e.SUCCESS,data)
+}
+
+//FindPomotionActivityList ...获取促销活动列表
+func FindPomotionActivityList(ctx *web.Context){
+	shopId,_ := strconv.Atoi(ctx.Query("id"))
+	pager := &models.PagerArgs{}
+	_ = pager.Bind(ctx)
+	srv :=service.NewPromotionActivity(ctx.RequestContext)
+	data := srv.FindPomotionActivityList(shopId,pager)
+	ctx.ResponseData(e.SUCCESS,data)
 }
