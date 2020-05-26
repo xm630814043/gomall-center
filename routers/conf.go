@@ -54,11 +54,12 @@ func Register(router *gin.Engine) {
 	v1.DELETE("/cms/article/:id", web.Handler(api.RemoveArticle))
 	v1.PUT("/cms/article/edit/:id", web.Handler(api.ModifyArticle))
 
-	v1.POST("/cms/promotionactivity/create", web.Handler(api.AddPomotionActivity))
-	v1.POST("/cms/promotionactivity/create/:id", web.Handler(api.AddPomotionActivityAbs))
-	v1.DELETE("/cms/promotionactivity/:id", web.Handler(api.RemovePomotionActivity))
-	v1.PUT("/cms/promotionactivity/edit/:id", web.Handler(api.ModifyPomotionActivity))
-	v1.GET("/cms/promotionactivity/detail/:id", web.Handler(api.FindByPomotionActivity))
-	v1.GET("/cms/promotionactivity/list", web.Handler(api.FindPomotionActivityList))
+	v1.POST("/cms/promotionactivity/create", web.Handler(api.AddPromotionActivity))
+	v1.POST("/cms/promotionactivity/create/:id", web.Handler(api.AddPromotionActivityAbs))
+	v1.DELETE("/cms/promotionactivity/:id", web.Handler(api.RemovePromotionActivity))
+	v1.PUT("/cms/promotionactivity/edit/:id", web.Handler(api.ModifyPromotionActivity))
+	v1.GET("/cms/promotionactivity/detail/:id", web.Handler(api.FindByPromotionActivity))
+	v1.GET("/cms/promotionactivity/list/:id", web.Handler(api.FindPromotionActivityList))
+	v1.GET("/cms/promotionactivity/list", web.Handler(api.FindPromotionProductList))
 
 }

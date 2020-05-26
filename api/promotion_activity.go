@@ -9,8 +9,8 @@ import (
 	"strconv"
 )
 
-//AddPomotionActivity ...添加促销活动
-func AddPomotionActivity (ctx *web.Context){
+//AddPromotionActivity ...添加促销活动
+func AddPromotionActivity (ctx *web.Context){
 	form := &models.PromotionActivityForm{}
 	if err := ctx.BindJSON(form);err != nil{
 		ctx.Response(e.BAD_REQUEST)
@@ -26,8 +26,8 @@ func AddPomotionActivity (ctx *web.Context){
 	ctx.Response(code)
 }
 
-//AddPomotionActivityAbs ...叠加平台活动
-func AddPomotionActivityAbs (ctx *web.Context){
+//AddPromotionActivityAbs ...叠加平台活动
+func AddPromotionActivityAbs (ctx *web.Context){
 	shopId,_ := strconv.Atoi(ctx.Query("shopId"))
 	promotionActivityId,_ := strconv.Atoi(ctx.Param("id"))
 	srv := service.NewPromotionActivity(ctx.RequestContext)
@@ -35,16 +35,16 @@ func AddPomotionActivityAbs (ctx *web.Context){
 	ctx.Response(code)
 }
 
-//RemovePomotionActivity ...删除促销活动
-func RemovePomotionActivity(ctx *web.Context)  {
+//RemovePromotionActivity ...删除促销活动
+func RemovePromotionActivity(ctx *web.Context)  {
 	promotionActivityId,_ := strconv.Atoi(ctx.Param("id"))
 	srv := service.NewPromotionActivity(ctx.RequestContext)
 	code := srv.DeleteById(promotionActivityId)
 	ctx.Response(code)
 }
 
-//ModifyPomotionActivity ...修改促销活动
-func ModifyPomotionActivity(ctx *web.Context)  {
+//ModifyPromotionActivity ...修改促销活动
+func ModifyPromotionActivity(ctx *web.Context)  {
 	form := &models.PromotionActivityForm{}
 	promotionActivityId,_ := strconv.Atoi(ctx.Param("id"))
 	if err := ctx.BindJSON(form); err!=nil{
@@ -57,24 +57,35 @@ func ModifyPomotionActivity(ctx *web.Context)  {
 		return
 	}
 	srv := service.NewPromotionActivity(ctx.RequestContext)
-	code := srv.UpdatePomotionActivity(promotionActivityId,form)
+	code := srv.UpdatePromotionActivity(promotionActivityId,form)
 	ctx.Response(code)
 }
 
-//FindByPomotionActivity ...获取促销活动详情
-func FindByPomotionActivity(ctx *web.Context){
+//FindByPromotionActivity ...获取促销活动详情
+func FindByPromotionActivity(ctx *web.Context){
 	promotionActivityId,_ := strconv.Atoi(ctx.Param("id"))
 	srv :=service.NewPromotionActivity(ctx.RequestContext)
-	data := srv.FindPomotionActivityById(promotionActivityId)
+	data := srv.PromotionActivityById(promotionActivityId)
 	ctx.ResponseData(e.SUCCESS,data)
 }
 
-//FindPomotionActivityList ...获取促销活动列表
-func FindPomotionActivityList(ctx *web.Context){
-	shopId,_ := strconv.Atoi(ctx.Query("id"))
+//FindPromotionActivityList ...获取促销活动列表
+func FindPromotionActivityList(ctx *web.Context){
+	shopId,_ := strconv.Atoi(ctx.Param("id"))
 	pager := &models.PagerArgs{}
 	_ = pager.Bind(ctx)
 	srv :=service.NewPromotionActivity(ctx.RequestContext)
-	data := srv.FindPomotionActivityList(shopId,pager)
+	data := srv.PromotionActivityList(shopId,pager)
+	ctx.ResponseData(e.SUCCESS,data)
+}
+
+//FindPromotionProductList ...获取促销活动商品
+func FindPromotionProductList(ctx *web.Context){
+	shopId,_ := strconv.Atoi(ctx.Query("id"))
+	promotionPatternId,_ := strconv.Atoi(ctx.Query("pid"))
+	pager := &models.PagerArgs{}
+	_ = pager.Bind(ctx)
+	srv :=service.NewPromotionActivity(ctx.RequestContext)
+	data := srv.PromotionProductList(shopId,promotionPatternId,pager)
 	ctx.ResponseData(e.SUCCESS,data)
 }

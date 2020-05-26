@@ -1,6 +1,5 @@
 package service
 
-import "C"
 import (
 	"fmt"
 	"gomall-center/models"
@@ -20,18 +19,19 @@ const (
 )
 
 //NewPromotionActivity ...
-func NewPromotionActivity(cotent *web.RequestContext) *PromotionActivity  {
-	c := &PromotionActivity{InitService(cotent)}
+func NewPromotionActivity(content *web.RequestContext) *PromotionActivity  {
+	c := &PromotionActivity{InitService(content)}
 	return c
 }
+
 func (c *PromotionActivity) insertPromotionActivity (promotionActivity models.PromotionActivity) int {
 	if err := c.Table("t_promotion_activity").Create(&promotionActivity).Error ; err != nil{
 		return e.ERROR
 	}
 	return e.SUCCESS
 }
-func (c *PromotionActivity) insertProductRelation (productrelation models.ProductRelation) int {
-	if err := c.Table("t_product_relation").Create(&productrelation).Error; err!=nil{
+func (c *PromotionActivity) insertProductRelation (productRelation models.ProductRelation) int {
+	if err := c.Table("t_product_relation").Create(&productRelation).Error; err!=nil{
 		return e.ERROR
 	}
 	return e.SUCCESS
@@ -44,8 +44,8 @@ func (c *PromotionActivity) insertDiscountCoupon (discountCoupon models.Discount
 	}
 	return e.SUCCESS
 }
-func (c *PromotionActivity) insertComplimentaryPattern (complimentaryrelation models.ComplimentaryRelation) int {
-	if err := c.Table("t_complimentary_relation").Create(&complimentaryrelation).Error; err!=nil{
+func (c *PromotionActivity) insertComplimentaryPattern (complimentaryRelation models.ComplimentaryRelation) int {
+	if err := c.Table("t_complimentary_relation").Create(&complimentaryRelation).Error; err!=nil{
 		return e.ERROR
 	}
 	return e.SUCCESS
@@ -59,29 +59,29 @@ func (c *PromotionActivity) InsertPromotionActivity (form *models.PromotionActiv
 	productIda := strings.Replace(strings.Trim(fmt.Sprint(form.ProductId), ""), "[", " ", -1)
 	productId := strings.Replace(productIda, "]", "", -1 )
 	//字段赋值
-	var  promotionactivity = models.PromotionActivity{StartTime:form.StartTime,StopTime:form.StopTime,PromotionPatternId:form.PromotionPatternId,PromotionTheme:form.PromotionTheme,
+	var  promotionActivity = models.PromotionActivity{StartTime:form.StartTime,StopTime:form.StopTime,PromotionPatternId:form.PromotionPatternId,PromotionTheme:form.PromotionTheme,
 		PromotionDescribe:form.PromotionDescribe,PromotionDiscount:form.PromotionDiscount,PromotionCash:form.PromotionCash,PromotionCount:form.PromotionCount,ShopId:form.ShopId,
 		ShopName:form.ShopName,ComplimentaryPatternId:form.ComplimentaryPatternId,ComplimentaryCash:form.ComplimentaryCash,PromotionType:form.PromotionType}
-	if err := c.insertPromotionActivity(promotionactivity); err != e.SUCCESS{
+	if err := c.insertPromotionActivity(promotionActivity); err != e.SUCCESS{
 		return e.ERROR
 	}else{
 		//商品关系表
-		c.Last(&promotionactivity)
-		if promotionactivity.ShopId == form.ShopId{
-			var productrelation = models.ProductRelation{PromotionActivityId:int(promotionactivity.ID),CategoryId:categoryId,ProductId:productId,ShopId:form.ShopId}
-			c.insertProductRelation(productrelation)
+		c.Last(&promotionActivity)
+		if promotionActivity.ShopId == form.ShopId{
+			var productRelation = models.ProductRelation{PromotionActivityId:int(promotionActivity.ID),CategoryId:categoryId,ProductId:productId,ShopId:form.ShopId}
+			c.insertProductRelation(productRelation)
 		}
 		//判断此活动中是否是优惠券活动,如果是添加增加优惠卷表,（商家如果有修改活动,已被用户领取的优惠卷需保留未改变之前的属性）
 		if form.PromotionPatternId == 11 || form.PromotionPatternId == 12{
-			var discountCoupon = models.DiscountCoupon{PromotionActivityId:int(promotionactivity.ID),StartTime:form.StartTime,StopTime:form.StopTime,
+			var discountCoupon = models.DiscountCoupon{PromotionActivityId:int(promotionActivity.ID),StartTime:form.StartTime,StopTime:form.StopTime,
 				PromotionPatternId:form.PromotionPatternId,PromotionDiscount:form.PromotionDiscount,PromotionCash:form.PromotionCash,PromotionType:form.PromotionType}
-			counts :=promotionactivity.PromotionCount
+			counts :=promotionActivity.PromotionCount
 			c.insertDiscountCoupon(discountCoupon,counts)
 		}
 		//判断此活动中是否存在赠品活动
 		if form.ComplimentaryPatternId != 0{
-			var complimentaryrelation = models.ComplimentaryRelation{PromotionActivityId:int(promotionactivity.ID),CategoryId:categoryId,ProductId:productId,ShopId:form.ShopId}
-			c.insertComplimentaryPattern(complimentaryrelation)
+			var complimentaryRelation = models.ComplimentaryRelation{PromotionActivityId:int(promotionActivity.ID),CategoryId:categoryId,ProductId:productId,ShopId:form.ShopId}
+			c.insertComplimentaryPattern(complimentaryRelation)
 		}
 		return e.SUCCESS
 	}
@@ -93,15 +93,15 @@ func (c *PromotionActivity) InsertPromotionActivityAbs (promotionActivityId int,
 		return e.ERROR
 	}
 	//添加促销活动，附带店铺id
-	var  promotionactivity = models.PromotionActivity{StartTime:results.StartTime,StopTime:results.StopTime,PromotionPatternId:results.PromotionPatternId,PromotionTheme:results.PromotionTheme,
+	var  promotionActivity = models.PromotionActivity{StartTime: results.StartTime,StopTime:results.StopTime,PromotionPatternId:results.PromotionPatternId,PromotionTheme:results.PromotionTheme,
 		PromotionDescribe:results.PromotionDescribe,PromotionDiscount:results.PromotionDiscount,PromotionCash:results.PromotionCash,PromotionCount:results.PromotionCount,ShopId:shopId,
 		ComplimentaryPatternId:results.ComplimentaryPatternId,ComplimentaryCash:results.ComplimentaryCash,PromotionType:results.PromotionType}
-	c.insertPromotionActivity(promotionactivity)
+	c.insertPromotionActivity(promotionActivity)
 	//平台只发布优惠券，叠加平台发布的活动，也需在优惠券表添加
-	c.Last(&promotionactivity)
-	var discountCoupon = models.DiscountCoupon{PromotionActivityId:int(promotionactivity.ID),StartTime:results.StartTime,StopTime:results.StopTime,
+	c.Last(&promotionActivity)
+	var discountCoupon = models.DiscountCoupon{PromotionActivityId:int(promotionActivity.ID),StartTime:results.StartTime,StopTime:results.StopTime,
 		PromotionPatternId:results.PromotionPatternId,PromotionDiscount:results.PromotionDiscount,PromotionCash:results.PromotionCash,PromotionType:results.PromotionType}
-	counts :=promotionactivity.PromotionCount
+	counts := promotionActivity.PromotionCount
 	c.insertDiscountCoupon(discountCoupon,counts)
 	return e.SUCCESS
 }
@@ -150,8 +150,8 @@ func (c *PromotionActivity) DeleteById (promotionActivityId int) int  {
 	return e.SUCCESS
 }
 
-//PomotionActivity ...UpdatePomotionActivity调用的函数
-func (c *PromotionActivity) pomotionActivity(promotionActivityId int,form *models.PromotionActivityForm) int {
+//PromotionActivity ...UpdatePromotionActivity调用的函数
+func (c *PromotionActivity) promotionActivity(promotionActivityId int,form *models.PromotionActivityForm) int {
 	tx :=c.Begin()
 	categoryIda := strings.Replace(strings.Trim(fmt.Sprint(form.CategoryId), ""), "[", "", -1)
 	categoryId := strings.Replace(categoryIda, "]", "", -1 )
@@ -173,8 +173,8 @@ func (c *PromotionActivity) pomotionActivity(promotionActivityId int,form *model
 	result.PromotionCount=form.PromotionCount
 	result.ComplimentaryPatternId=form.ComplimentaryPatternId
 	result.ComplimentaryCash=form.ComplimentaryCash
-	var productrelation = models.ProductRelation{PromotionActivityId:int(result.ID),CategoryId:categoryId,ProductId:productId,ShopId:form.ShopId}
-	var complimentaryrelation = models.ComplimentaryRelation{PromotionActivityId:int(result.ID),CategoryId:categoryId,ProductId:productId,ShopId:form.ShopId}
+	var productRelation = models.ProductRelation{PromotionActivityId:int(result.ID),CategoryId:categoryId,ProductId:productId,ShopId:form.ShopId}
+	var complimentaryRelation = models.ComplimentaryRelation{PromotionActivityId:int(result.ID),CategoryId:categoryId,ProductId:productId,ShopId:form.ShopId}
 	//促销活动表
 	if err :=c.Table("t_promotion_activity").Where("id = ?",promotionActivityId).Update(&result).Error ; err != nil {
 		tx.Rollback()
@@ -204,7 +204,7 @@ func (c *PromotionActivity) pomotionActivity(promotionActivityId int,form *model
 			fmt.Println("修改后活动为满减，直减")
 			//更改活动，从优惠券切换为别的活动，删除之前存储未被领取的优惠卷
 			c.deleteDiscountCoupon(promotionActivityId)
-			c.insertProductRelation(productrelation)
+			c.insertProductRelation(productRelation)
 		}
 	}else{
 		fmt.Println("未修改前活动为满减，直减")
@@ -214,7 +214,7 @@ func (c *PromotionActivity) pomotionActivity(promotionActivityId int,form *model
 			c.insertDiscountCoupon(discountCoupon,counts)
 		}else{
 			fmt.Println("修改后活动为满减，直减")
-			if err :=c.Table("t_product_relation").Where("promotion_activity_id = ?",promotionActivityId).Update(&productrelation).Error;err!=nil {
+			if err :=c.Table("t_product_relation").Where("promotion_activity_id = ?",promotionActivityId).Update(&productRelation).Error;err!=nil {
 				tx.Rollback()
 				return e.ERROR
 			}
@@ -223,7 +223,7 @@ func (c *PromotionActivity) pomotionActivity(promotionActivityId int,form *model
 	//判断活动中是否存在赠品,存在赠品则更改赠品，不存在赠品，则删除赠品表中的值
 	if complimentaryPatternIda !=0{
 		if form.ComplimentaryPatternId != 0{
-			if err :=c.Table("t_complimentary_relation").Where("promotion_activity_id = ?",promotionActivityId).Update(&complimentaryrelation).Error;err!=nil {
+			if err :=c.Table("t_complimentary_relation").Where("promotion_activity_id = ?",promotionActivityId).Update(&complimentaryRelation).Error;err!=nil {
 				tx.Rollback()
 				return e.ERROR
 			}
@@ -232,33 +232,33 @@ func (c *PromotionActivity) pomotionActivity(promotionActivityId int,form *model
 		}
 	}else{
 		if form.ComplimentaryPatternId != 0{
-			c.insertComplimentaryPattern(complimentaryrelation)
+			c.insertComplimentaryPattern(complimentaryRelation)
 		}
 	}
 	tx.Commit()
 	return e.SUCCESS
 }
 
-//UpdatePomotionActivity ...根据活动id修改促销活动
-func (c *PromotionActivity) UpdatePomotionActivity (promotionActivityId int,form *models.PromotionActivityForm) int {
+//UpdatePromotionActivity ...根据活动id修改促销活动
+func (c *PromotionActivity) UpdatePromotionActivity (promotionActivityId int,form *models.PromotionActivityForm) int {
 	var timeUnixB int64
-	timeUnixa :=time.Now().Unix()
+	timeUnix :=time.Now().Unix()
 	theTime, _ := time.ParseInLocation("2006-01-02 15:04:05",form.StartTime , time.Local)
 	timeUnixB =theTime.Unix()
 	//判断是限时活动还是不限时
 	if form.StartTime != "0000-00-00 00:00:00"{
 		//判断活动是否已进行,能否进行修改操作，判断条件放在页面中，查出活动详情的同时，就对其活动开始时间和当前时间进行比较判断
-		if timeUnixa < timeUnixB {
-			code :=c.pomotionActivity(promotionActivityId,form)
+		if timeUnix < timeUnixB {
+			code :=c.promotionActivity(promotionActivityId,form)
 			return code
 		}
 		return e.Time_ERROR
 	}
-	code :=c.pomotionActivity(promotionActivityId,form)
+	code :=c.promotionActivity(promotionActivityId,form)
 	return code
 }
 
-//findByProduct ...FindPomotionActivityById调用的函数
+//findByProduct ...FindPromotionActivityById调用的函数
 func (c *PromotionActivity) findByProduct(productId string,categoryId string,shopId int) []*models.Products {
 	products :=make([]*models.Products, 0)
 	productIds := strings.Split(productId," ")
@@ -274,8 +274,8 @@ func (c *PromotionActivity) findByProduct(productId string,categoryId string,sho
 	return products
 }
 
-//FindPomotionActivityById ...根据活动id获取活动详情
-func (c *PromotionActivity) FindPomotionActivityById (promotionActivityId int) *models.PromotionActivityAbs  {
+//FindPromotionActivityById ...根据活动id获取活动详情
+func (c *PromotionActivity) PromotionActivityById(promotionActivityId int) *models.PromotionActivityAbs  {
 	promotionActivity := &models.PromotionActivity{}
 	productRelation := &models.ProductRelation{}
 	complimentaryRelation := &models.ComplimentaryRelation{}
@@ -309,8 +309,8 @@ func (c *PromotionActivity) FindPomotionActivityById (promotionActivityId int) *
 	return results
 }
 
-//FindPomotionActivityList ...根据店铺状态id获取活动列表
-func (c *PromotionActivity) FindPomotionActivityList (shopId int,args *models.PagerArgs) *models.PagerData  {
+//FindPromotionActivityList ...根据店铺状态id获取活动列表
+func (c *PromotionActivity) PromotionActivityList(shopId int,args *models.PagerArgs) *models.PagerData  {
 	var promotionActivity []*models.PromotionActivity
 	var count int
 	db := c.Table("t_promotion_activity")
@@ -326,6 +326,27 @@ func (c *PromotionActivity) FindPomotionActivityList (shopId int,args *models.Pa
 	results := &models.PagerData{
 		Count: count,
 		Data:  promotionActivity,
+	}
+	return results
+}
+
+func (c *PromotionActivity) PromotionProductList(shopId int,promotionPatternId int ,args *models.PagerArgs) *models.PagerData  {
+	var productRelationAbs []*models.ProductRelationAbs
+	var count int
+	fmt.Println("接受传来的参数",shopId,promotionPatternId)
+	if shopId != 0{
+		//获取店铺促销方式的商品列表
+		sqlStr :="select s.category_id,s.product_id,s.shop_id,c.id,c.promotion_describe,c.promotion_pattern_id FROM t_product_relation as s,t_promotion_activity as c WHERE s.promotion_activity_id = c.id  and c.promotion_pattern_id = ? and s.shop_id = ?"
+		c.Raw(sqlStr, promotionPatternId,shopId).Scan(&productRelationAbs).Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Count(&count)
+		fmt.Println(productRelationAbs)
+	}else{
+		//获取平台促销方式的商品列表
+		sqlStr :="select s.category_id,s.product_id,s.shop_id,c.id,c.promotion_describe,c.promotion_pattern_id FROM t_product_relation as s,t_promotion_activity as c WHERE s.promotion_activity_id = c.id  and c.promotion_pattern_id = ? and c.promotion_type = ?"
+		c.Raw(sqlStr, promotionPatternId,2).Scan(&productRelationAbs).Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Count(&count)
+	}
+	results := &models.PagerData{
+		Count: count,
+		Data:  productRelationAbs,
 	}
 	return results
 }

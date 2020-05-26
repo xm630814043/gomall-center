@@ -28,16 +28,16 @@ func AddControlSell (ctx *web.Context){
 
 //InsertControlSell ...删除控销模板
 func RemoveControlSell(ctx *web.Context){
-	controlsellId,_ := strconv.Atoi(ctx.Param("id"))
+	controlSellId,_ := strconv.Atoi(ctx.Param("id"))
 	srv := service.NewControlSellService(ctx.RequestContext)
-	code := srv.DeleteByID(controlsellId)
+	code := srv.DeleteByID(controlSellId)
 	ctx.Response(code)
 }
 
 //InsertControlSell ...修改控销模板
 func ModifyControlSell(ctx *web.Context){
 	form := &models.ControlSells{}
-	controlsellId,_ := strconv.Atoi(ctx.Param("id"))
+	controlSellId,_ := strconv.Atoi(ctx.Param("id"))
 	if err := ctx.BindJSON(form) ; err != nil{
 		ctx.Response(e.BAD_REQUEST)
 		return
@@ -48,15 +48,15 @@ func ModifyControlSell(ctx *web.Context){
 		return
 	}
 	srv := service.NewControlSellService(ctx.RequestContext)
-	code := srv.UpdateControlSell(controlsellId,form)
+	code := srv.UpdateControlSell(controlSellId,form)
 	ctx.Response(code)
 }
 
 //InsertControlSell ...获取控销模板详情
 func FindByControlSell(ctx *web.Context){
-	controlsellId,_ := strconv.Atoi(ctx.Param("id"))
+	controlSellId,_ := strconv.Atoi(ctx.Param("id"))
 	srv :=service.NewControlSellService(ctx.RequestContext)
-	data := srv.ControlSellByID(controlsellId)
+	data := srv.ControlSellByID(controlSellId)
 	ctx.ResponseData(e.SUCCESS,data)
 }
 
