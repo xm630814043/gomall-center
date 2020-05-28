@@ -81,11 +81,19 @@ func FindPromotionActivityList(ctx *web.Context){
 
 //FindPromotionProductList ...获取促销活动商品
 func FindPromotionProductList(ctx *web.Context){
-	shopId,_ := strconv.Atoi(ctx.Query("id"))
-	promotionPatternId,_ := strconv.Atoi(ctx.Query("pid"))
+	promotionPatternId,_ := strconv.Atoi(ctx.Query("id"))
 	pager := &models.PagerArgs{}
 	_ = pager.Bind(ctx)
 	srv :=service.NewPromotionActivity(ctx.RequestContext)
-	data := srv.PromotionProductList(shopId,promotionPatternId,pager)
+	data := srv.PromotionProductList(promotionPatternId,pager)
 	ctx.ResponseData(e.SUCCESS,data)
+}
+//FindPromotionProductList ...获取促销优惠券
+func FindDiscountCouponList(ctx *web.Context){
+	shopId,_ := strconv.Atoi(ctx.Query("id"))
+	pager := &models.PagerArgs{}
+	_ = pager.Bind(ctx)
+	srv :=service.NewPromotionActivity(ctx.RequestContext)
+	e,data := srv.DiscountCouponList(shopId,pager)
+	ctx.ResponseData(e,data)
 }

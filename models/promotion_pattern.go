@@ -15,6 +15,7 @@ type PromotionPatternFrom struct {
 	PromotionPatternName    string      `json:"promotion_pattern_name"`		//活动方式
 	Price    				[]string    `json:"price"`						//原价
 	PromotionDiscount  		int  		`json:"promotion_discount"`			//活动折扣，金额
+	PromotionCount  		int  		`json:"promotion_count"`			//发行数量
 	PromotionCash  			int  		`json:"promotion_cash"`				//活动条件
 	ComplimentaryPatternId  int  		`json:"complimentary_pattern_id"`	//赠品方式
 	ComplimentaryCash  		int  		`json:"complimentary_cash"`			//赠品条件

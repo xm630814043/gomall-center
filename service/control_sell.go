@@ -97,10 +97,12 @@ func (c *ControlSellService) ControlSellByID (controlSellId int) *models.Control
 func (c *ControlSellService) ControlSellList(companyId int,args *models.PagerArgs) *models.PagerData{
 	var controlSell []*models.ControlSell
 	var count int
+	db := c.Table("t_control_sell")
 	if args.KeyWord != "" {
-		c.Where("title like ?", "'%"+args.KeyWord+"%'")
+		db = db.Where("control_sell_name like ?", "%"+args.KeyWord+"%")
 	}
-	if err := c.Where("company_id = ?",companyId).Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Find(&controlSell).Count(&count).Error ;err !=nil{
+	db = db.Where("company_id = ? and deleted_at is null",companyId).Count(&count)
+	if err := db.Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Find(&controlSell).Error ;err !=nil{
 		return nil
 	}
 	results := &models.PagerData{

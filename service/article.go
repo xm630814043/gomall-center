@@ -52,10 +52,12 @@ func (c *ArticleService) ArticleByID(articleId int) *models.Article {
 func (c *ArticleService) ArticleList (args *models.PagerArgs) *models.PagerData  {
 	var articles  []*models.Article
 	var count int
+	db := c.Table("t_article")
 	if args.KeyWord != "" {
-		c.Where("title like ?", "'%"+args.KeyWord+"%'")
+		db = db.Where("title like ?", "%"+args.KeyWord+"%")
 	}
-	if err := c.Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Find(&articles).Count(&count).Error ; err!= nil{
+	db.Count(&count)
+	if err := db.Offset((args.PageNum - 1) * args.PageSize).Limit(args.PageSize).Find(&articles).Error ; err!= nil{
 		return nil
 	}
 	results := &models.PagerData{

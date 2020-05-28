@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import {AddSubject,AddControlSell,ModifyControlSell}from '../../api/company'
+    import {AddSubjec}from '../../api/company'
     export default {
         name: "create",
         data() {
@@ -46,25 +46,14 @@
             };
         },
         methods: {
-            // submitForm(){
-            //     this.id = this.$route.query.cid
-            //     this.form.subject_id = this.id
-            //     this.form.object_id = 90
-            //     AddSubject(this.form).then(res => {
-            //             console.log(res.data);
-            //         })
-            //     },
-            submitForm() {
-                AddControlSell(this.data).then(res => {
-                    console.log(res.data);
-                })
-            },
-            submitForms() {
-                console.log("进入修改")
-                ModifyControlSell(2, this.data).then(res => {
-                    console.log(res.data);
-                })
-            },
+            submitForm(){
+                this.id = this.$route.query.cid
+                this.form.subject_id = this.id
+                this.form.object_id = 90
+                AddSubject(this.form).then(res => {
+                        console.log(res.data);
+                    })
+                },
         }
     }
 </script>

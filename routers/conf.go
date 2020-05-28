@@ -42,24 +42,25 @@ func Register(router *gin.Engine) {
 	v1.PUT("/category/property/edit/:id", web.Handler(api.ModifyProp))             //修改属性根据ID
 
 	//测试
-	v1.POST("/cms/controlled/create", web.Handler(api.AddControlSell))
-	v1.GET("/cms/controlled/detail/:id", web.Handler(api.FindByControlSell))
-	v1.GET("/cms/controlled/list/:id", web.Handler(api.FindControlSellList))
-	v1.DELETE("/cms/controlled/:id", web.Handler(api.RemoveControlSell))
-	v1.PUT("/cms/controlled/edit/:id", web.Handler(api.ModifyControlSell))
+	v1.POST("/controlled/create", web.Handler(api.AddControlSell))
+	v1.GET("/controlled/detail/:id", web.Handler(api.FindByControlSell))
+	v1.GET("/controlled/list/:id", web.Handler(api.FindControlSellList))
+	v1.DELETE("/controlled/:id", web.Handler(api.RemoveControlSell))
+	v1.PUT("/controlled/edit/:id", web.Handler(api.ModifyControlSell))
 
-	v1.POST("/cms/article/create", web.Handler(api.AddArticle))
-	v1.GET("/cms/article/detail/:id", web.Handler(api.FindByArticle))
-	v1.GET("/cms/article/list", web.Handler(api.FindArticleList))
-	v1.DELETE("/cms/article/:id", web.Handler(api.RemoveArticle))
-	v1.PUT("/cms/article/edit/:id", web.Handler(api.ModifyArticle))
+	v1.POST("/article/create", web.Handler(api.AddArticle))
+	v1.GET("/article/detail/:id", web.Handler(api.FindByArticle))
+	v1.GET("/article/list", web.Handler(api.FindArticleList))
+	v1.DELETE("/article/:id", web.Handler(api.RemoveArticle))
+	v1.PUT("/article/edit/:id", web.Handler(api.ModifyArticle))
 
-	v1.POST("/cms/promotionactivity/create", web.Handler(api.AddPromotionActivity))
-	v1.POST("/cms/promotionactivity/create/:id", web.Handler(api.AddPromotionActivityAbs))
-	v1.DELETE("/cms/promotionactivity/:id", web.Handler(api.RemovePromotionActivity))
-	v1.PUT("/cms/promotionactivity/edit/:id", web.Handler(api.ModifyPromotionActivity))
-	v1.GET("/cms/promotionactivity/detail/:id", web.Handler(api.FindByPromotionActivity))
-	v1.GET("/cms/promotionactivity/list/:id", web.Handler(api.FindPromotionActivityList))
-	v1.GET("/cms/promotionactivity/list", web.Handler(api.FindPromotionProductList))
+	v1.POST("/promotionActivity/create", web.Handler(api.AddPromotionActivity))
+	v1.POST("/promotionActivity/create/:id", web.Handler(api.AddPromotionActivityAbs))
+	v1.DELETE("/promotionActivity/:id", web.Handler(api.RemovePromotionActivity))
+	v1.PUT("/promotionActivity/edit/:id", web.Handler(api.ModifyPromotionActivity))
+	v1.GET("/promotionActivity/detail/:id", web.Handler(api.FindByPromotionActivity))
+	v1.GET("/promotionActivity/list/:id", web.Handler(api.FindPromotionActivityList))
+	v1.GET("/promotionProduct/list", web.Handler(api.FindPromotionProductList))
+	v1.GET("/discountCoupon/list", web.Handler(api.FindDiscountCouponList))
 
 }

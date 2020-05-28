@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-    import {FindBySubjectList,RemoveSubject,FindBySubject,RemoveControlSell,FindControlSellByID,FindControlSellList}from '../../api/company'
+    import {FindBySubjectList,RemoveSubject,FindBySubject}from '../../api/company'
     export default {
         name: "reproduces",
         data() {
@@ -36,15 +36,6 @@
             this.id = this.$route.query.sid
             this.contentType = this.$route.query.sname
             this.limit = this.$route.query.slimit
-            // console.log(this.id,this.contentType,this.limit)
-            FindControlSellByID(1).then(res=>{
-              console.log(this.tabledata)
-              this.tabledata = res.data
-            }),
-            FindControlSellList(2).then(res=>{
-              console.log(this.tabledata)
-              this.tabledata = res.data
-            })
             FindBySubjectList(this.id,this.contentType,this.limit).then(res => {
                 console.log(res.data)
                 this.hotGoodsList = res.data
@@ -52,13 +43,10 @@
         },
         methods: {
             handleDelete:function(index) {
-                // console.log(index,this.id)
-                // RemoveSubject(index,this.id).then(res => {
-                //     console.log(res.data)
-                // }),
-                    RemoveControlSell(4).then(res => {
-                        console.log(res.data)
-                    })
+                console.log(index,this.id)
+                RemoveSubject(index,this.id).then(res => {
+                    console.log(res.data)
+                })
             },
             handleCreate:function () {
                 this.$router.push({path: '/cms/create', query: {cid:this.id}})
