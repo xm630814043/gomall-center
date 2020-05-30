@@ -9,6 +9,7 @@ type PromotionPattern struct {
 }
 
 type PromotionPatternFrom struct {
+	ID         				[]int `json:"id"`
 	StartTime  				string  	`json:"start_time"`    				//开始时间
 	StopTime  				string  	`json:"stop_time"`					//结束时间
 	PromotionTypeName       string      `json:"promotion_type_name"`		//活动类型

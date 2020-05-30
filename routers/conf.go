@@ -63,4 +63,9 @@ func Register(router *gin.Engine) {
 	v1.GET("/promotionProduct/list", web.Handler(api.FindPromotionProductList))
 	v1.GET("/discountCoupon/list", web.Handler(api.FindDiscountCouponList))
 
+
+	v1.GET("/promotionPattern/list", web.Handler(api.FIndDiscounts))
+
+
+
 }
